@@ -1,0 +1,199 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.154.0/containers/docker-existing-docker-compose
+// If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
+// cSpell:disable
+{
+	"name": "dev",
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": "dev_env/docker-compose-devcontainer.yml",
+	"initializeCommand": "${localWorkspaceFolder}/.devcontainer/initializeCommand.sh",
+	"postCreateCommand": "./src/.devcontainer/postCreateCommand.sh",
+	"workspaceFolder": "/workspace/vscodeContainer_1",
+	"service": "vscodeContainer_1",
+	"updateRemoteUserUID": "false",
+	"overrideCommand": "false",
+	// Set *default* container specific settings.json values on container create.
+	"customizations": {
+		"vscode": {
+			"settings": {
+				//////////////
+				/// VSCODE ///
+				//////////////
+				"files.watcherExclude": {
+					"**/.git/**": true, //VSCode default setting. Repeated here because we are overriding files.watcherExclude
+					"**/node_modules/*/**": true, //VSCode default setting. Repeated here because we are overriding files.watcherExclude
+					"**/__pycache__/**": true, //VSCode default setting. Repeated here because we are overriding files.watcherExclude
+					"build": true, //Catkin's default build folder
+					"devel": true, //Catkin's default devel folder
+					"install": true, //Catkin's default install folder
+					"logs": true, //Catkin's default logs folder
+					".catkin_tools": true, //Catkin's configuration
+					".cache": true, //Clangd's cache folder
+					".venv": true //python virtual environment
+				},
+				"search.exclude": {
+					"**/.git/**": true, //
+					"**/node_modules/*/**": true, //VSCode default setting. Repeated here because we are overriding search.exclude
+					"**/__pycache__/**": true, //VSCode default setting. Repeated here because we are overriding search.exclude
+					"build": true, //Catkin's default build folder
+					"devel": true, //Catkin's default devel folder
+					"install": true, //Catkin's default install folder
+					"logs": true, ///Catkin's default logs folder
+					".catkin_tools": true, //Catkin's configuration
+					".cache": true, //Clangd's cache folder
+					".venv": true //python virtual environment
+				},
+				"files.insertFinalNewline": true,
+				"editor.formatOnSave": true,
+				"telemetry.enableTelemetry": false,
+				"telemetry.telemetryLevel": "off",
+				"terminal.integrated.defaultProfile.linux": null,
+				"dev.containers.gitCredentialHelperConfigLocation": "none",
+				////////////////////
+				/// CATKIN TOOLS ///
+				////////////////////
+				"catkin_tools.cppStandard": "c++17",
+				"catkin_tools.mergedCompileCommandsJsonPath": "${workspaceFolder}/compile_commands.json",
+				"catkin_tools.gtestMacroRegex": [
+					"catkin_add_gtest",
+					"athena_add_.*test",
+					"^\\s*athena_simple_library_package"
+				],
+				//////////////
+				/// PYTHON ///
+				//////////////
+				"python.formatting.provider": "black",
+				"python.formatting.blackPath": "/usr/local/bin/black",
+				"python.linting.flake8Path": "/usr/local/bin/flake8",
+				"python.linting.flake8Enabled": true,
+				"python.linting.flake8Args": [
+					"--config=${workspaceFolder}/src/.flake8"
+				],
+				"python.languageServer": "Pylance",
+				/////////////
+				/// CLANG ///
+				/////////////
+				"clang-format.executable": "/usr/bin/clang-format-1",
+				//////////////////
+				/// SONAR LINT ///
+				//////////////////
+				"sonarlint.pathToCompileCommands": "${workspaceFolder}/compile_commands.json",
+				"sonarlint.disableTelemetry": true,
+				"sonarlint.connectedMode.project": {
+					"connectionId": "https-aks-sonarqube",
+					"projectKey": "vscodeContainer_1"
+				},
+				"sonarlint.output.showVerboseLogs": true,
+				"sonarlint.output.showAnalyzerLogs": true,
+				"sonarlint.trace.server": "messages",
+				/////////////
+				/// C CPP ///
+				/////////////
+				"C_Cpp.codeAnalysis.clangTidy.path": "/usr/bin/clang-tidy-1",
+				"C_Cpp.codeAnalysis.clangTidy.enabled": true,
+				"C_Cpp.codeAnalysis.runAutomatically": true,
+				"C_Cpp.codeAnalysis.clangTidy.useBuildPath": true,
+				"C_Cpp.codeAnalysis.maxConcurrentThreads": 4, // cap clang-tidy cpu usage
+				// useBuildPath uses the value of C_Cpp.default.compileCommands to find the build path
+				"C_Cpp.default.compileCommands": "${workspaceFolder}/compile_commands.json",
+				//"C_Cpp.default.configurationProvider": "b2.catkin_tools", //Activating this breaks Intellisense
+				"C_Cpp.clang_format_path": "/usr/bin/clang-format-1",
+				"C_Cpp.default.includePath": [
+					"${workspaceFolder}/**",
+					"/usr/include/eigen3",
+					"/opt/carma/0.18.1/ubuntu1804/Debug/include/carma"
+				],
+				////////////////
+				/// MARKDOWN ///
+				////////////////
+				"myst.preview.enable": false,
+				// see https://github.boschdevcloud.com/Half-Dome/colibry/blob/master/source/methods/docs_as_code/markdown_style_guide.md
+				"markdownlint.config": {
+					"default": true,
+					"MD002": true,
+					"MD003": false,
+					"MD004": {
+						"style": "sublist"
+					},
+					"MD006": true,
+					"MD007": false,
+					"no-trailing-spaces": true,
+					"MD012": {
+						"maximum": 2
+					},
+					"MD013": {
+						"line_length": 1000,
+						"code_block_line_length": 160,
+						"heading_line_length": 120
+					},
+					"MD022": {
+						"lines_above": 1,
+						"lines_below": 1
+					},
+					"MD024": false,
+					"MD030": false,
+					"MD033": false,
+					"MD034": false,
+					"MD040": false,
+					"MD041": false,
+					"MD045": false,
+					"MD046": false
+				},
+				///////////////////
+				/// DOC AS CODE ///
+				///////////////////
+				"plantuml.jar": "/usr/share/plantuml/plantuml.jar",
+				"esbonio.sphinx.confDir": "${workspaceFolder}/src/documentation",
+				"esbonio.sphinx.buildDir": "${workspaceFolder}/build/documentation",
+				"esbonio.sphinx.numJobs": 0,
+				"esbonio.sphinx.srcDir": "${workspaceFolder}/src",
+				"restructuredtext.conflictingExtensions": [
+					"tht13.rst-vscode",
+					"TatsuyaNakamori.resttext",
+					"swyddfa.esbonio"
+				]
+			},
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"bbenoist.Doxygen",
+				"well-ar.plantuml",
+				"trond-snekvik.simple-rst",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-themes",
+				"GitHub.vscode-pull-request-github",
+				"betwo.b2-catkin-tools@4.5.0",
+				"davidanson.vscode-markdownlint",
+				"ExecutableBookProject.myst-highlight",
+				"eamodio.gitlens",
+				"GitWorktrees.git-worktrees",
+				"ms-azuretools.vscode-docker",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"twxs.cmake",
+				"streetsidesoftware.code-spell-checker",
+				"SonarSource.sonarlint-vscode",
+				"redhat.vscode-yaml"
+			]
+		}
+	},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
+	// helps for using gdb debugger inside the container:
+	"runArgs": [
+		"--privileged",
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	],
+	// Avoid defining env variables here unless the env variable refers to only a vscode specific feature. It is better to define env variables directly in hd-cde.
+	"remoteEnv": {
+		"PYTHONPATH": "${containerWorkspaceFolder}/install/lib/python3/dist-packages:${containerWorkspaceFolder}/devel/lib/python3/dist-packages:${localEnv:PYTHONPATH}"
+	},
+	"remoteUser": "${localEnv:USER}",
+	"containerUser": "${localEnv:USER}"
+}

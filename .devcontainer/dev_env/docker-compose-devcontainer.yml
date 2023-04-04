@@ -1,0 +1,8 @@
+# This docker-compose file is a workaround for the issues happened after migration of the remote-containers extension to
+# the Devcontainer.
+# VSCode pulls this image upon start, but eventually the hd-cde container is used for development, which is desired.
+
+version: '3.9'
+services:
+  hd-athena:
+    image: vscodeContainer_1masterbdcmirrored.azurecr.io/hd-docker-local/vscodeContainer_1_base_2004:latest
